@@ -1,0 +1,58 @@
+.glassbtn {
+    background: rgba(101, 195, 215, 0.55);
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.8px);
+    -webkit-backdrop-filter: blur(5.8px);
+    border: 1px solid rgba(101, 195, 215, 0.3);
+    padding: 8px 16px;
+    text-shadow: 2px 2px #aaaaaa;
+    color: #ffffff;
+}
+.main {
+    height: 200px;
+    
+}
+
+div.slide {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, #eeeff8 0%, #f6f8f9 100%);
+    align-items: center;
+    justify-items: center;
+    /* THIS creates the animation! */
+    transition: transform 1s;
+}
+
+div.slider {
+    width: 50rem;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    padding-left:20px;
+    color:#1a5881;
+
+    overflow: hidden;
+}
+
+button.slider-btn {
+    position: absolute;
+    top: 100px;
+    /* Rounded button */
+    border-radius: 50%;
+    color:#1a5881;
+
+    z-index: 10;
+    border: none;
+}
+
+button.slide-left {
+    left: 6%;
+    transform: translate(-50%, -50%);
+}
+button.slide-right {
+    right: 6%;
+    transform: translate(-50%, -50%);
+}
