@@ -1,0 +1,208 @@
+<html >
+    <head >
+        <style>.glassbtn {
+    background: rgba(101, 195, 215, 0.55);
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.8px);
+    -webkit-backdrop-filter: blur(5.8px);
+    border: 1px solid rgba(101, 195, 215, 0.3);
+    padding: 8px 16px;
+    text-shadow: 2px 2px #aaaaaa;
+    color: #ffffff;
+}
+.main {
+    height: 200px;
+}
+
+div.slide {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, #eeeff8 0%, #f6f8f9 100%);
+    align-items: center;
+    justify-items: center;
+    /* THIS creates the animation! */
+    transition: transform 1s;
+}
+
+div.slider {
+    width: 50rem;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 20px;
+    color: #1a5881;
+
+    overflow: hidden;
+}
+
+button.slider-btn {
+    position: absolute;
+    top: 100px;
+    /* Rounded button */
+    border-radius: 50%;
+    color: #1a5881;
+    font-size: 20px;
+    z-index: 10;
+    border: none;
+    cursor: pointer;
+}
+
+button.slide-left {
+    left: 6%;
+    transform: translate(-50%, -50%);
+}
+button.slide-right {
+    right: 6%;
+    transform: translate(-50%, -50%);
+}
+div.dot-btn {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 3px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+div.active {
+  background-color: #007bff;
+}</style></link>
+    </head>
+    <body >
+        <div class="main" >
+            <button class="slider-btn slide-left" >←</button>
+            <div class="slider" >
+                <div class="slide" id="slide-1" style="transform: translateX(0%)" >
+                    <h1 >Program for better skills</h1>
+                    <p >Leetcode practices using laugages:
+                        <ul >
+                            <li >python</li>
+                            <li >C</li>
+                            <li >javascript</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="slide" id="slide-2" style="transform: translateX(100%)" >
+                    <h1 >Program for Math</h1>
+                    <p >Numerical integration of simple functions written in Javascript. </p>
+                    <p >Numerical derivative using limit. </p>
+                    <p >Compute PI using Monte Carlo method.</p>
+                </div>
+                <div class="slide" id="slide-3" style="transform: translateX(200%)" >
+                    <h1 >Program for Physics</h1>
+                    <p >Simulation of 1D/2D movement by numerical integration of Newton's law. Demonstrate energy conservation.
+                        <ul >
+                            <li >Spring pendulum</li>
+                            <li >Double spring mass oscillation</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="slide" id="slide-4" style="transform: translateX(300%)" >
+                    <h1 >Program for machine learning and AI</h1>
+                    <p >Javascript programs:
+                        <ul >
+                            <li >Demostrate gradient descent for simple 2d functions</li>
+                            <li >Customizable greeting card with integration to Google Gemini</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="slide" id="slide-5" style="transform: translateX(400%)" >
+                    <h1 >Program for fun</h1>
+                    <p >Javascript game with animation</p>
+                </div>
+                <div class="slide" id="slide-6" style="transform: translateX(500%)" >
+                    <h1 >Sports</h1>
+                    <p >
+                        <ul >
+                            <li >Badminton</li>
+                            <li >Sailing</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="slide" id="slide-7" style="transform: translateX(600%)" >
+                    <h1 >Community Involvements</h1>
+                    <p >Volunteer works. </p>
+                </div>
+            </div>
+            <center >
+                <div class="dot-btn active" id="btn1" ></div>
+                <div class="dot-btn" id="btn2" ></div>
+                <div class="dot-btn" id="btn3" ></div>
+                <div class="dot-btn" id="btn4" ></div>
+                <div class="dot-btn" id="btn5" ></div>
+                <div class="dot-btn" id="btn6" ></div>
+                <div class="dot-btn" id="btn7" ></div>
+            </center>
+            <button class="slider-btn slide-right" >→</button>
+        </div>
+        <script >// query all the elements
+const leftBtn = document.querySelector(".slide-left");
+const rightBtn = document.querySelector(".slide-right");
+const slides = document.querySelectorAll(".slide");
+const dotbtns = document.querySelectorAll(".dot-btn");
+
+let cur = 0;
+leftBtn.disabled = true;
+
+function deactiveDotBtns() {
+    dotbtns.forEach((btn) => {
+        btn.classList.remove("active");
+    });
+}
+
+function updateSlice() {
+    slides.forEach((slide, idx) => {
+        const delta = idx - cur;
+        const percentage = String(delta) + "00%";
+        slide.style.transform = `translateX(${percentage})`;
+    });
+}
+
+
+function dotBtnOnClick(e) {
+    leftBtn.disabled = false;
+    rightBtn.disabled = false;
+    cur = Number(e.target.id.slice(-1))-1;
+
+    if (cur == 0) {
+        leftBtn.disabled = true;
+    } else if (cur == 6) {
+        rightBtn.disabled = true;
+    }
+    deactiveDotBtns();
+    e.target.classList.add("active");
+    updateSlice();
+}
+dotbtns.forEach((btn) => {
+    btn.addEventListener("click", dotBtnOnClick);
+});
+
+leftBtn.addEventListener("click", function (e) {
+    cur--;
+    rightBtn.disabled = false;
+    deactiveDotBtns();
+    dotbtns[cur].classList.add("active");
+
+    if (cur == 0) {
+        leftBtn.disabled = true;
+    }
+    updateSlice();
+});
+
+rightBtn.addEventListener("click", function (_) {
+    cur++;
+    leftBtn.disabled = false;
+    if (cur == 6) {
+        rightBtn.disabled = true;
+    }
+    deactiveDotBtns();
+    dotbtns[cur].classList.add("active");
+    updateSlice();
+});
+</script>
+    </body>
+</html>
