@@ -17,6 +17,10 @@ while (xstart < 10) {
     points.push([xstart, func(xstart)]);
     xstart += delta;
 }
+const intePoints = points.filter((cur, idx) => {
+    return idx%3==0;
+});
+
 const points1 = [];
 xstart = -10;
 delta = 0.8
@@ -26,7 +30,8 @@ while (xstart < 10) {
 }
 plot.draw([
     {points, color:'blue'},
-    {points: points1, color:'rgba(0,255,0,0.3)', integration: true}
+    {points: points1, color:'green'},
+    {points: intePoints, color:'rgba(0,0,255,0.3)', integration: true}
 ]);
 
 function func2(x){
