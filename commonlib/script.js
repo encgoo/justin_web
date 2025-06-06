@@ -1,31 +1,32 @@
 import {Plot} from './plot.js'
 
 const canvas = document.querySelector('#canvas1');
-const canvas_w = 500;
-const canvas_h = 300;
+const canvas_w = 600;
+const canvas_h = 600;
 canvas.width = canvas_w;
 canvas.height = canvas_h;
 
 const plot = new Plot(canvas);
 function func(x) {
-    return 100*Math.sin(x);
+    return 2*x*Math.sin(x);
 }
 const points = [];
 let xstart = -10;
-const delta = 0.1;
+let delta = 0.1;
 while (xstart < 10) {
     points.push([xstart, func(xstart)]);
     xstart += delta;
 }
 const points1 = [];
-xstart = -20;
-while (xstart < 20) {
+xstart = -10;
+delta = 0.8
+while (xstart < 10) {
     points1.push([xstart, func2(xstart)]);
     xstart += delta;
 }
 plot.draw([
     {points, color:'blue'},
-    {points: points1, color:'green'}
+    {points: points1, color:'rgba(0,255,0,0.3)', integration: true}
 ]);
 
 function func2(x){

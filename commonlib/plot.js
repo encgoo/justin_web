@@ -48,7 +48,7 @@ class Plot {
         }, max_mins[0]);
         let [xmax, xmin, ymax, ymin] = extrems;
         console.log(xmax, xmin, ymax, ymin);
-        
+
         this.#ymax = ymax;
         this.#ymin = ymin;
         this.#xmax = xmax;
@@ -75,36 +75,58 @@ class Plot {
     draw(data) {
         const ctx = this.canvas.getContext("2d");
         this.init(data);
-        this.drawX(ctx);
-        this.drawY(ctx);
+        this.#drawX(ctx);
+        this.#drawY(ctx);
         data.forEach((cur) => {
-            this.drawCurve(ctx, cur);
+            this.#drawCurve(ctx, cur);
         });
     }
-    convertX(x) {
+    #convertX(x) {
         if (this.#xmin > 0 || this.#xmax < 0) {
             x -= this.#xmin;
         }
         return x * this.#xscale + this.#yaxis_x;
     }
-    convertY(y) {
+    #convertY(y) {
         if (this.#ymin > 0 || this.#ymax < 0) {
             y += this.#ymin;
         }
         return -y * this.#yscale + this.#xaxis_y;
     }
-    drawCurve(ctx, curve) {
-        let { points, color } = curve;
-        ctx.strokeStyle = color;
+    #drawIntegration(ctx, points, color) {
+        ctx.fillStyle = color;
         ctx.beginPath();
         let [xstart, ystart] = points[0];
-        xstart = this.convertX(xstart);
-        ystart = this.convertY(ystart);
+        xstart = this.#convertX(xstart);
+        ystart = this.#convertY(ystart);
 
         points.forEach((point) => {
             let [xend, yend] = point;
-            xend = this.convertX(xend);
-            yend = this.convertY(yend);
+            xend = this.#convertX(xend);
+            yend = this.#convertY(yend);
+            ctx.fillRect(xstart, ystart, xend-xstart, this.#xaxis_y-ystart);
+            xstart = xend;
+            ystart = yend;
+        });
+        ctx.closePath();
+        ctx.stroke();
+    }
+    #drawCurve(ctx, curve) {
+        let { points, color, integration } = curve;
+        if (integration) {
+            this.#drawIntegration(ctx, points, color);
+            return;
+        }
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        let [xstart, ystart] = points[0];
+        xstart = this.#convertX(xstart);
+        ystart = this.#convertY(ystart);
+
+        points.forEach((point) => {
+            let [xend, yend] = point;
+            xend = this.#convertX(xend);
+            yend = this.#convertY(yend);
             ctx.moveTo(xstart, ystart);
             ctx.lineTo(xend, yend);
             xstart = xend;
@@ -113,7 +135,8 @@ class Plot {
         ctx.closePath();
         ctx.stroke();
     }
-    drawY(ctx) {
+
+    #drawY(ctx) {
         const yaxis_x = this.#yaxis_x;
         ctx.font = "8px Arial";
         ctx.textAlign = "right";
@@ -165,7 +188,7 @@ class Plot {
         ctx.stroke();
     }
 
-    drawX(ctx) {
+    #drawX(ctx) {
         const xaxis_y = this.#xaxis_y;
 
         ctx.lineWidth = 1;
