@@ -18,6 +18,18 @@ while (xstart < 10) {
     xstart += delta;
 }
 
-plot.draw(points);
+plot.draw(points, 'blue');
+
+function func2(x){
+    return 2*x;
+}
+
+const points1 = [];
+xstart = -10;
+while (xstart < 10) {
+    points1.push([xstart, func2(xstart)]);
+    xstart += delta;
+}
+plot.draw(points1, 'green');
 
 console.log(canvas);

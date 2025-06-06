@@ -11,8 +11,9 @@ class Plot {
     #pad = 10.5; // use .5 to get the one-pixel line
     #xaxis_y = 0;
     #yaxis_x = 0;
-    arrowlen = 5;
+    #axisDone = false;
 
+    arrowlen = 5;
     canvas;
     constructor(ymax, ymin, xmax, xmin, canvas) {
         this.#w = canvas.width;
@@ -42,15 +43,19 @@ class Plot {
                 this.#pad;
         }
         this.#xaxis_y = xaxis_y;
+        this.#axisDone = false;
     }
     // assume the caller is going to clear the rectangle
-    draw(points) {
-        this.init();
+    draw(points, color) {
         const ctx = this.canvas.getContext("2d");
-        this.drawX(ctx);
-        this.drawY(ctx);
+        if (!this.#axisDone) {
+            this.init();
+            this.drawX(ctx);
+            this.drawY(ctx);
+            this.#axisDone = true;
+        }
 
-        this.drawPoints(ctx, points);
+        this.drawPoints(ctx, points, color);
     }
     convertX(x) {
         if (this.#xmin > 0 || this.#xmax < 0) {
@@ -64,8 +69,8 @@ class Plot {
         }
         return -y * this.#yscale + this.#xaxis_y;
     }
-    drawPoints(ctx, points) {
-        ctx.strokeStyle = "#000000";
+    drawPoints(ctx, points, color) {
+        ctx.strokeStyle = color;
         ctx.beginPath();
         let [xstart, ystart] = points[0];
         xstart = this.convertX(xstart);
