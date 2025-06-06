@@ -6,7 +6,7 @@ const canvas_h = 300;
 canvas.width = canvas_w;
 canvas.height = canvas_h;
 
-const plot = new Plot(100, -100, 10, -10, canvas);
+const plot = new Plot(canvas);
 function func(x) {
     return 100*Math.sin(x);
 }
@@ -17,19 +17,22 @@ while (xstart < 10) {
     points.push([xstart, func(xstart)]);
     xstart += delta;
 }
-
-plot.draw(points, 'blue');
+const points1 = [];
+xstart = -20;
+while (xstart < 20) {
+    points1.push([xstart, func2(xstart)]);
+    xstart += delta;
+}
+plot.draw([
+    {points, color:'blue'},
+    {points: points1, color:'green'}
+]);
 
 function func2(x){
     return 2*x;
 }
 
-const points1 = [];
-xstart = -10;
-while (xstart < 10) {
-    points1.push([xstart, func2(xstart)]);
-    xstart += delta;
-}
-plot.draw(points1, 'green');
+
+//plot.draw(points1, 'green');
 
 console.log(canvas);

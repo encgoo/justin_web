@@ -11,14 +11,44 @@ class Plot {
     #pad = 10.5; // use .5 to get the one-pixel line
     #xaxis_y = 0;
     #yaxis_x = 0;
-    #axisDone = false;
 
     arrowlen = 5;
     canvas;
-    constructor(ymax, ymin, xmax, xmin, canvas) {
+    constructor(canvas) {
         this.#w = canvas.width;
         this.#h = canvas.height;
+        this.canvas = canvas;
+    }
+    // figure out the x-axis and y-axis locations
+    init(data) {
+        const max_mins = data.map((cur) => {
+            let { points, _ } = cur;
+            const maxMin = points.reduce(
+                (ext, cur) => {
+                    const ret = [
+                        Math.max(cur[0], ext[0]),
+                        Math.min(cur[0], ext[1]),
+                        Math.max(cur[1], ext[2]),
+                        Math.min(cur[1], ext[3]),
+                    ];
+                    return ret;
+                },
+                [points[0][0], points[0][0], points[0][1], points[0][1]]
+            );
+            return maxMin;
+        });
 
+        let extrems = max_mins.reduce((acc, max_min) => {
+            return [
+                Math.max(max_min[0], acc[0]),
+                Math.min(max_min[1], acc[1]),
+                Math.max(max_min[2], acc[2]),
+                Math.min(max_min[3], acc[3]),
+            ];
+        }, max_mins[0]);
+        let [xmax, xmin, ymax, ymin] = extrems;
+        console.log(xmax, xmin, ymax, ymin);
+        
         this.#ymax = ymax;
         this.#ymin = ymin;
         this.#xmax = xmax;
@@ -26,10 +56,7 @@ class Plot {
 
         this.#yscale = (this.#h - 2 * this.#pad) / (ymax - ymin);
         this.#xscale = (this.#w - 2 * this.#pad) / (xmax - xmin);
-        this.canvas = canvas;
-    }
-    // figure out the x-axis and y-axis locations
-    init() {
+
         let yaxis_x = Math.floor(-this.#xmin * this.#xscale) + this.#pad;
         if (this.#xmin > 0 || this.#xmax < 0) {
             yaxis_x = this.#pad;
@@ -43,19 +70,16 @@ class Plot {
                 this.#pad;
         }
         this.#xaxis_y = xaxis_y;
-        this.#axisDone = false;
     }
     // assume the caller is going to clear the rectangle
-    draw(points, color) {
+    draw(data) {
         const ctx = this.canvas.getContext("2d");
-        if (!this.#axisDone) {
-            this.init();
-            this.drawX(ctx);
-            this.drawY(ctx);
-            this.#axisDone = true;
-        }
-
-        this.drawPoints(ctx, points, color);
+        this.init(data);
+        this.drawX(ctx);
+        this.drawY(ctx);
+        data.forEach((cur) => {
+            this.drawCurve(ctx, cur);
+        });
     }
     convertX(x) {
         if (this.#xmin > 0 || this.#xmax < 0) {
@@ -69,7 +93,8 @@ class Plot {
         }
         return -y * this.#yscale + this.#xaxis_y;
     }
-    drawPoints(ctx, points, color) {
+    drawCurve(ctx, curve) {
+        let { points, color } = curve;
         ctx.strokeStyle = color;
         ctx.beginPath();
         let [xstart, ystart] = points[0];
