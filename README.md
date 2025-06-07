@@ -8,3 +8,6 @@ Use index.html and keep the javascript files under `js` folder and css under `cs
 python3 htmlmerge.py index.html out.html
 ```
 Copy the `body` of the out.html and put into google sites page.
+
+## images
+Images like [double.png](./double.png) can be pushed to github. Then view the image in github, right click on it and "Copy image address". That is the URL that can be used in google sites pages.

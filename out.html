@@ -21,6 +21,7 @@ div.slide {
     width: 100%;
     height: 100%;
     background-image: linear-gradient(to top, #eeeff8 0%, #f6f8f9 100%);
+    padding-left: 20px;
     align-items: center;
     justify-items: center;
     /* THIS creates the animation! */
@@ -32,7 +33,7 @@ div.slider {
     height: 200px;
     margin: 0 auto;
     position: relative;
-    padding-left: 20px;
+
     color: #1a5881;
 
     overflow: hidden;
@@ -69,7 +70,7 @@ div.dot-btn {
 }
 
 div.active {
-  background-color: #007bff;
+  background-color: #1a5881;
 }</style></link>
     </head>
     <body >
@@ -94,12 +95,17 @@ div.active {
                 </div>
                 <div class="slide" id="slide-3" style="transform: translateX(200%)" >
                     <h1 >Program for Physics</h1>
+                    <div style="width:50%;top:0%;left:0%;position: relative;" >
                     <p >Simulation of 1D/2D movement by numerical integration of Newton's law. Demonstrate energy conservation.
                         <ul >
                             <li >Spring pendulum</li>
                             <li >Double spring mass oscillation</li>
                         </ul>
                     </p>
+                    </div>
+                    <div style="width: 50%;position: absolute;height: 100%;left:50%; top:0%" >
+                        <img style="width:80%;height:80%;position: relative;top:10%;left:10%" src="https://github.com/encgoo/justin_web/blob/main/double.png?raw=true" >
+                    </div>
                 </div>
                 <div class="slide" id="slide-4" style="transform: translateX(300%)" >
                     <h1 >Program for machine learning and AI</h1>
