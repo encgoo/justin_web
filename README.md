@@ -9,5 +9,7 @@ python3 htmlmerge.py index.html out.html
 ```
 Copy the `body` of the out.html and put into google sites page.
 
+Note that htmlmerge.py has trouble to handle img src as href. Need to manually fix the out.html.
+
 ## images
 Images like [double.png](./double.png) can be pushed to github. Then view the image in github, right click on it and "Copy image address". That is the URL that can be used in google sites pages.

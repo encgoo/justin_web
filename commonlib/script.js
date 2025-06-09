@@ -8,7 +8,7 @@ canvas.height = canvas_h;
 
 const plot = new Plot(canvas);
 function func(x) {
-    return 2*x*Math.sin(x);
+    return 2*x*Math.sin(x*2);
 }
 const points = [];
 let xstart = -10;
@@ -30,8 +30,8 @@ while (xstart < 10) {
 }
 plot.draw([
     {points, color:'blue'},
-    {points: points1, color:'green'},
-    {points: intePoints, color:'rgba(0,0,255,0.3)', integration: true}
+    //{points: points1, color:'green'},
+    {points: intePoints, color:'rgba(96, 167, 230, 0.3)', integration: true}
 ]);
 
 function func2(x){
